@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
   Shows a Windows 10 balloon tip
 .DESCRIPTION

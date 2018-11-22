@@ -32,22 +32,3 @@ foreach($import in @($Public + $Private)) {
 
 # Export the Public modules
 Export-ModuleMember -Function $Public.Basename
-
-function MG-Tools() {
-    <#
-    .SYNOPSIS
-        Short description
-    .DESCRIPTION
-        Long description
-    .EXAMPLE
-        PS C:\> <example usage>
-        Explanation of what the example does
-    .INPUTS
-        Inputs (if any)
-    .OUTPUTS
-        Output (if any)
-    #>
-
-    param (
-    )
-} # Close MG-Tools

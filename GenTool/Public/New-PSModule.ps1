@@ -1,15 +1,20 @@
-function New-PSModule() {
+﻿function New-PSModule() {
   param(
     [Parameter(Mandatory=$true)]
-    [string]$ModuleName
+    [string]$ModuleName,
+    [switch]$Git
   )
   $docFolder = [Environment]::GetFolderPath('Personal')
-  $moduleFolder = $docFolder + '\' + $ModuleName
+  $moduleFolder = $docFolder + '\Development\' + $ModuleName + '-PSModule'
+  $author = "Kim Laage"
+  $companyName = "by Laage"
   $createDate = Get-Date -Format yyyy-MM-dd
   $moduleManifest = @{
-    Path = "$moduleFolder\$ModuleName.psd1"
+    Path = "$moduleFolder\$moduleName\$ModuleName.psd1"
     RootModule = "$ModuleName.psm1"
-    Author = "Kim Laage"
+    Author = $author
+    CompanyName = $companyName
+    PowerShellVersion = "3.0"
   }
   $moduleContent = @'
 <#
@@ -25,7 +30,7 @@ function New-PSModule() {
 .OUTPUTS
     Output (if any)
 .NOTES
-    Author: Kim Laage
+    Author: [AUTHOR]
     Date: [DATE]
 #>
 
@@ -69,21 +74,103 @@ function [MODULENAME]() {
 } # Close [MODULENAME]
 '@
 
+  $helpContent = @'
+  TOPIC
+  about_[MODULENAME]
+
+  ABOUT TOPIC NOTE:
+  The first header of the about topic should be the topic name.
+  The second header contains the lookup name used by the help system.
+  
+  IE:
+  # Some Help Topic Name
+  ## SomeHelpTopicFileName
+  
+  This will be transformed into the text file
+  as `about_SomeHelpTopicFileName`.
+  Do not include file extensions.
+  The second header should have no spaces.
+
+
+
+SHORT DESCRIPTION
+  {{ Short Description Placeholder }}
+
+  ABOUT TOPIC NOTE:
+  About topics can be no longer than 80 characters wide when rendered to text.
+  Any topics greater than 80 characters will be automatically wrapped.
+  The generated about topic will be encoded UTF-8.
+
+LONG DESCRIPTION
+  {{ Long Description Placeholder }}
+
+Optional Subtopics
+  {{ Optional Subtopic Placeholder }}
+
+EXAMPLES
+  {{ Code or descriptive examples of how to leverage the functions described.
+  }}
+
+NOTE
+  {{ Note Placeholder - Additional information that a user needs to know.}}
+
+TROUBLESHOOTING NOTE
+  {{ Troubleshooting Placeholder - Warns users of bugs}}
+  {{ Explains behavior that is likely to change with fixes }}
+
+SEE ALSO
+  {{ See also placeholder }}
+  {{ You can also list related articles, blogs, and video URLs. }}
+
+KEYWORDS
+  {{List alternate names or titles for this topic that readers might use.}}
+  - {{ Keyword Placeholder }}
+  - {{ Keyword Placeholder }}
+  - {{ Keyword Placeholder }}
+  - {{ Keyword Placeholder }}
+'@
+
+  $readmeContent = @'
+  ##Welcome to [MODULENAME]
+'@
+
   # Create Module directory with Public and Private subdirectories
   New-Item -Path $moduleFolder -ItemType Directory -Force
-  New-Item -Name "Public" -ItemType Directory -Path $moduleFolder
-  New-Item -Name "Private" -ItemType Directory -Path $moduleFolder
+  New-Item -Name "Public" -ItemType Directory -Path "$moduleFolder\$moduleName\"
+  New-Item -Name "Private" -ItemType Directory -Path "$moduleFolder\$moduleName\"
+  New-Item -Name "en-US" -ItemType Directory -Path "$moduleFolder\$moduleName\"
+  # New-Item -Name "sv-SE" -ItemType Directory -Path "$moduleFolder\$moduleName\"
   
   # Grab content $moduleContent and add date and module name before creating the 
   # primary module psm1 file
   $moduleContent = $moduleContent.Replace("[DATE]",$createDate)
   $moduleContent = $moduleContent.Replace("[MODULENAME]",$ModuleName)
-  Out-File -FilePath "$moduleFolder\$ModuleName.psm1" -InputObject $moduleContent -Encoding utf8
+  $moduleContent = $moduleContent.Replace("[AUTHOR]",$author)
+  Out-File -FilePath "$moduleFolder\$moduleName\$ModuleName.psm1" -InputObject $moduleContent -Encoding utf8
   
   # Grab $scriptContent and create an initial public ps1 script
   $scriptContent = $scriptContent.Replace("[MODULENAME]",$ModuleName)
-  Out-File -FilePath "$moduleFolder\Public\$ModuleName.ps1" -InputObject $scriptContent -Encoding utf8
+  Out-File -FilePath "$moduleFolder\$moduleName\Public\$ModuleName.ps1" -InputObject $scriptContent -Encoding utf8
 
-  New-ModuleManifest @moduleManifest 
+  # Grab $helpContent and create a about_[MODULENAME].help.txt file in the en-US directory
+  $helpContent = $helpContent.Replace("[MODULENAME]",$ModuleName)
+  Out-File -FilePath "$moduleFolder\$moduleName\en-US\about_$ModuleName.help.txt" -InputObject $helpContent -Encoding utf8
+
+  # Create Test directory
+  New-Item -Path $moduleFolder -ItemType Directory -Name "Tests"
+
+  # Grab $readmeContent and create a README.md
+  $readmeContent = $readmeContent.Replace("[MODULENAME]",$ModuleName)
+  Out-File -FilePath "$moduleFolder\README.md" -InputObject $readmeContent -Encoding utf8
+
+  # Create a new Module-Manifest based on the $moduleManifest-splat above
+  New-ModuleManifest @moduleManifest
+
+  # If the Git parameter is called it will automatically initialize a new repo in the $moduleFolder
+  if ($Git.IsPresent) {
+    Push-Location -Path $moduleFolder
+    & git init
+    Pop-Location
+  }
   
 } # Close New-PSModule
