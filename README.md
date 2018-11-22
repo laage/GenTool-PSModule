@@ -15,7 +15,7 @@ Works in both Windows Powershell and Powershell Core
 
 ## Maintainer
 
-- [Kim Laage][github]<https://github.com/laage/>
+- [Kim Laage]<https://github.com/laage/>
 
 ## License
 
