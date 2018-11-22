@@ -13,7 +13,11 @@ Function to add a Windows 10 ballon tool tip to functions and scripts
 
 Works in both Windows Powershell and Powershell Core
 
-## Legal and Licensing
+## Maintainer
+
+- [Kim Laage][github]
+
+## License
 
 GenTool is licensed under the [MIT license][].
 

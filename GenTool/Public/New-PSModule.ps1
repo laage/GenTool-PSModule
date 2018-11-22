@@ -8,10 +8,10 @@
   - A Tests folder for Pester or other test-framework.
   - Starting README.md and LICENSE.txt.
 .EXAMPLE
-  PS C:\> New-PSModule -ModuleName [MODULENAME]
+  PS C:\> New-PSModule [-ModuleName] <string>
   Creates a new blank module.
 .EXAMPLE
-  PS C:\> New-PSModule -ModuleName [MODULENAME] -Git
+  PS C:\> New-PSModule [-ModuleName] <string> -Git
   Creates a new blank module and initalizes a Git repo.
 .INPUTS
   Inputs (if any)
@@ -34,7 +34,7 @@ function New-PSModule() {
   $moduleFolder = $docFolder + '\Development\' + $ModuleName + '-PSModule'
   $author = "YOUR NAME GOES HERE"
   $companyName = "YOUR COMPANY NAME GOES HERE"
-  # Formatted according to Swedish standard
+  # Formatted according to Swedish standard: Year-Month-Day
   # Modify to suit your own taste
   $createDate = Get-Date -Format yyyy-MM-dd
   $moduleManifest = @{
@@ -159,7 +159,7 @@ KEYWORDS
 '@
 
   $readmeContent = @'
-##Welcome to [MODULENAME]
+#Welcome to [MODULENAME]
 '@
 
   # Create Module directory with Public and Private subdirectories
