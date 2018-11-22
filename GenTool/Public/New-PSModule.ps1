@@ -1,13 +1,41 @@
-﻿function New-PSModule() {
+﻿<#
+.SYNOPSIS
+  Creates a new template folder for a Powershell module
+.DESCRIPTION
+  Creates a new template folder for a Powershell module containing:
+  - A Module-folder with Private, Public and en-US help directories and
+  a starting Module manifests and Module-script and an about_MODULE.help.txt.
+  - A Tests folder for Pester or other test-framework.
+  - Starting README.md and LICENSE.txt.
+.EXAMPLE
+  PS C:\> New-PSModule -ModuleName [MODULENAME]
+  Creates a new blank module.
+.EXAMPLE
+  PS C:\> New-PSModule -ModuleName [MODULENAME] -Git
+  Creates a new blank module and initalizes a Git repo.
+.INPUTS
+  Inputs (if any)
+.OUTPUTS
+  Output (if any)
+.NOTES
+  General notes
+#>
+function New-PSModule() {
   param(
     [Parameter(Mandatory=$true)]
     [string]$ModuleName,
     [switch]$Git
   )
+  # Gets the users Documents folder
   $docFolder = [Environment]::GetFolderPath('Personal')
+  # Creates the path where the module will be created.
+  # Standard is [USERNAME]\Documents\Development\[MODULENAME]-PSModule
+  # Modify to suit your own taste.
   $moduleFolder = $docFolder + '\Development\' + $ModuleName + '-PSModule'
-  $author = "Kim Laage"
-  $companyName = "by Laage"
+  $author = "YOUR NAME GOES HERE"
+  $companyName = "YOUR COMPANY NAME GOES HERE"
+  # Formatted according to Swedish standard
+  # Modify to suit your own taste
   $createDate = Get-Date -Format yyyy-MM-dd
   $moduleManifest = @{
     Path = "$moduleFolder\$moduleName\$ModuleName.psd1"
@@ -75,7 +103,7 @@ function [MODULENAME]() {
 '@
 
   $helpContent = @'
-  TOPIC
+TOPIC
   about_[MODULENAME]
 
   ABOUT TOPIC NOTE:
@@ -131,7 +159,7 @@ KEYWORDS
 '@
 
   $readmeContent = @'
-  ##Welcome to [MODULENAME]
+##Welcome to [MODULENAME]
 '@
 
   # Create Module directory with Public and Private subdirectories
