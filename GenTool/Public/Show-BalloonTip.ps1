@@ -5,10 +5,10 @@
   Shows a Windows 10 balloon tip with a user specified title and body text, and an optional icon.
   Default icon is of 'Info'-type
 .EXAMPLE
-  PS C:\> Show-BalloonTip -Title "Title" -Text "Text"
+  PS C:\> Show-BalloonTip -Title <string> -Text <string>
   Displays a balloon tip with Title and Text and the default "Info" icon
 .EXAMPLE
-  PS C:\> Show-BalloonTip -Title "Title" -Text "Text" -Icon "Warning"
+  PS C:\> Show-BalloonTip -Title <string> -Text <string> -Icon "Warning"
   Displays a balloon tip with Title and Text and the "Warning" icon
 .NOTES
     Author: Kim Laage

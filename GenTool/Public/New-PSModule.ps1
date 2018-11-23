@@ -160,6 +160,10 @@ KEYWORDS
 
   $readmeContent = @'
 #Welcome to [MODULENAME]
+
+## Maintainer
+
+- [AUTHOR]
 '@
 
   # Create Module directory with Public and Private subdirectories
@@ -189,7 +193,11 @@ KEYWORDS
 
   # Grab $readmeContent and create a README.md
   $readmeContent = $readmeContent.Replace("[MODULENAME]",$ModuleName)
+  $readmeContent = $readmeContent.Replace("[AUTHOR]",$author)
   Out-File -FilePath "$moduleFolder\README.md" -InputObject $readmeContent -Encoding utf8
+
+  # Create an empty LICENSE.txt
+  Out-File -FilePath "$moduleFolder\LICENSE.txt" -Encoding utf8
 
   # Create a new Module-Manifest based on the $moduleManifest-splat above
   New-ModuleManifest @moduleManifest
