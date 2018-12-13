@@ -159,7 +159,7 @@ KEYWORDS
 '@
 
   $readmeContent = @'
-#Welcome to [MODULENAME]
+# Welcome to [MODULENAME]
 
 ## Maintainer
 
