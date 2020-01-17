@@ -1,3 +1,5 @@
+#Requires -Version 4.0
+#Requires -RunAsAdministrator
 <#
 .SYNOPSIS
   Updates choco-installed software, installed PS-modules and the PS help files
