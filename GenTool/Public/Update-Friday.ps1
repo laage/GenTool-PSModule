@@ -14,6 +14,6 @@ function Update-Friday {
   param (
   )
   choco upgrade all -y 
-  Update-Module
+  Update-Module -Force
   Update-Help
 }
