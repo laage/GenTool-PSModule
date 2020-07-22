@@ -2,12 +2,21 @@
 
 ## Exported functions
 
+_Get-PublicIPAddress_:
+Gets the public IP address of the computer
+
 _New-PSModule_:
 Creates a template folder for a new Powershell module with a module manifest,
 module script, public and private directories and a en-US help directory.
 
 _Show-BalloonTip_:
 Function to add a Windows 10 ballon tool tip to functions and scripts
+
+_Update-Friday_:
+
+* Updates all apps installed via Chocolatey
+* Updates installed Powershell Modules
+* Runs Update-Help
 
 ## Compatibility
 
