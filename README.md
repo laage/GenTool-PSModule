@@ -2,6 +2,9 @@
 
 ## Exported functions
 
+_Backup-ConfigFile_:
+Backs up config files for VSCode and Windows Terminal to folder on OneDrive.
+
 _Get-PublicIPAddress_:
 Gets the public IP address of the computer
 
@@ -24,7 +27,7 @@ Works in both Windows Powershell and Powershell Core
 
 ## Maintainer
 
-- [Kim Laage](https://github.com/laage/)
+* [Kim Laage](https://github.com/laage/)
 
 ## License
 
