@@ -19,19 +19,21 @@ Function Backup-ConfigFile {
     Backs up VSCode and Windows Terminal configuration files to the Dotfiles folder on OneDrive.
 
   .NOTES
-    Version:        1.0
+    Version:        1.0.1
     Author:         Kim Laage (kimla)
     Creation Date:  2020-07-27
-    Purpose/Change: Initial script development
+    Purpose/Change: 1.0.1: Added Name to the PSCustomObjects to identify the the backed up files
   #>
   [CmdLetBinding()]
   Param ()
   $DotFiles = @(
     [PSCustomObject]@{
+      Name = "Windows Terminal";
       Path = "$ENV:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json";
       Destination = "$($ENV:USERPROFILE)\OneDrive\DotFiles\$(Get-Date -f yyyyMMdd)_$($ENV:COMPUTERNAME)_terminal_settings.json"
     }
     [PSCustomObject]@{
+      Name = "VS Code";
       Path = "$ENV:AppData\Code\User\settings.json";
       Destination = "$($ENV:USERPROFILE)\OneDrive\DotFiles\$(Get-Date -f yyyyMMdd)_$($ENV:COMPUTERNAME)_vscode_settings.json"
     }
@@ -43,7 +45,8 @@ Function Backup-ConfigFile {
         Copy-Item -Path $_.Path -Destination $_.Destination
       }
       else {
-        Write-Warning 'Filen har redan backats upp idag!'
+        $Warning = $_.Name + "-filen har redan backats upp idag!"
+        Write-Warning $Warning
       }
     }
   }
